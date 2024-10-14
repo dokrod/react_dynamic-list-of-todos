@@ -19,11 +19,11 @@ export const App: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [selectedTodo, setSelectedTodo] = useState<Todo | null>(null);
 
-  const onFilterChange = (event: ChangeEvent<HTMLSelectElement>) => {
+  const handleFilterChange = (event: ChangeEvent<HTMLSelectElement>) => {
     setFilter(event.target.value as FilterType);
   };
 
-  const onQueryChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleQueryChange = (event: ChangeEvent<HTMLInputElement>) => {
     setQuery(event.target.value);
   };
 
@@ -31,11 +31,11 @@ export const App: React.FC = () => {
     setQuery('');
   };
 
-  const onTodoSelect = (todo: Todo) => {
+  const handleTodoSelect = (todo: Todo) => {
     setSelectedTodo(todo);
   };
 
-  const onSelectedTodoClear = () => {
+  const handleSelectedTodoClear = () => {
     setSelectedTodo(null);
   };
 
@@ -69,9 +69,9 @@ export const App: React.FC = () => {
             <div className="block">
               <TodoFilter
                 filterBy={filter}
-                setFilter={onFilterChange}
+                setFilter={handleFilterChange}
                 query={query}
-                setQuery={onQueryChange}
+                setQuery={handleQueryChange}
                 cleaner={queryCleaner}
               />
             </div>
@@ -83,7 +83,7 @@ export const App: React.FC = () => {
                 <TodoList
                   todos={filteredTodos}
                   selectedTodo={selectedTodo}
-                  onSelectedTodo={onTodoSelect}
+                  onSelectedTodo={handleTodoSelect}
                 />
               </div>
             )}
@@ -92,7 +92,7 @@ export const App: React.FC = () => {
       </div>
 
       {selectedTodo && (
-        <TodoModal todo={selectedTodo} onTodoClear={onSelectedTodoClear} />
+        <TodoModal todo={selectedTodo} handleTodoClear={handleSelectedTodoClear} />
       )}
     </>
   );
