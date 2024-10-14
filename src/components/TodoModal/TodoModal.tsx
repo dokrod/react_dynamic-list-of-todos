@@ -6,10 +6,13 @@ import { User } from '../../types/User';
 
 type Props = {
   todo: Todo;
-  todoCleaner: () => void;
+  onTodoClear: () => void;
 };
 
-export const TodoModal: React.FC<Props> = ({ todo, todoCleaner }) => {
+export const TodoModal: React.FC<Props> = ({
+  todo,
+  onTodoClear: todoCleaner,
+}) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -18,7 +21,7 @@ export const TodoModal: React.FC<Props> = ({ todo, todoCleaner }) => {
 
     getUser(todo.userId)
       .then(setUser)
-      .then(() => setLoading(false));
+      .finally(() => setLoading(false));
   }, [todo.userId]);
 
   return (

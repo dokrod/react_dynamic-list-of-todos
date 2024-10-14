@@ -19,11 +19,11 @@ export const App: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [selectedTodo, setSelectedTodo] = useState<Todo | null>(null);
 
-  const handleChangeFilter = (event: ChangeEvent<HTMLSelectElement>) => {
+  const onFilterChange = (event: ChangeEvent<HTMLSelectElement>) => {
     setFilter(event.target.value as FilterType);
   };
 
-  const handleQueryChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const onQueryChange = (event: ChangeEvent<HTMLInputElement>) => {
     setQuery(event.target.value);
   };
 
@@ -31,11 +31,11 @@ export const App: React.FC = () => {
     setQuery('');
   };
 
-  const handleSelectTodo = (todo: Todo) => {
+  const onTodoSelect = (todo: Todo) => {
     setSelectedTodo(todo);
   };
 
-  const handleClearSelectedTodo = () => {
+  const onSelectedTodoClear = () => {
     setSelectedTodo(null);
   };
 
@@ -56,7 +56,7 @@ export const App: React.FC = () => {
 
     getTodos()
       .then(setTodos)
-      .then(() => setLoading(false));
+      .finally(() => setLoading(false));
   }, []);
 
   return (
@@ -69,27 +69,30 @@ export const App: React.FC = () => {
             <div className="block">
               <TodoFilter
                 filterBy={filter}
-                setFilter={handleChangeFilter}
+                setFilter={onFilterChange}
                 query={query}
-                setQuery={handleQueryChange}
+                setQuery={onQueryChange}
                 cleaner={queryCleaner}
               />
             </div>
 
-            {loading && <Loader />}
-            <div className="block">
-              <TodoList
-                todos={filteredTodos}
-                selectedTodo={selectedTodo}
-                onSelectedTodo={handleSelectTodo}
-              />
-            </div>
+            {loading ? (
+              <Loader />
+            ) : (
+              <div className="block">
+                <TodoList
+                  todos={filteredTodos}
+                  selectedTodo={selectedTodo}
+                  onSelectedTodo={onTodoSelect}
+                />
+              </div>
+            )}
           </div>
         </div>
       </div>
 
       {selectedTodo && (
-        <TodoModal todo={selectedTodo} todoCleaner={handleClearSelectedTodo} />
+        <TodoModal todo={selectedTodo} onTodoClear={onSelectedTodoClear} />
       )}
     </>
   );
